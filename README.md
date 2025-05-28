@@ -54,6 +54,15 @@ docker compose up --build
 
 > The frontend communicates with the backend via Nginx reverse proxy (/api path).
 
+### 4. View API Documentation
+
+Once the backend is running, you can access the interactive API documentation (powered by Django Ninja) at:
+
+[http://localhost:8000/api/docs](http://localhost:8000/api/docs)
+
+This provides an interface to explore available API endpoints, send test requests, and view response formats.
+
+
 ## Services
 | Name          | Description                 | Port |
 | ------------- | --------------------------- | ---- |
