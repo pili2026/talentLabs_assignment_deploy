@@ -1,0 +1,68 @@
+services:
+  timescaledb:
+    container_name: talentlabs_timescaledb
+    image: timescale/timescaledb:2.19.2-pg15
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_CONFIG_MAX_LOCKS_PER_TRANSACTION: "128"
+    ports:
+      - "5432:5432"
+    volumes:
+      - timescaledb_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB} && psql -U ${POSTGRES_USER} -d ${POSTGRES_DB} -c 'SELECT 1'"]
+      interval: 1s
+      timeout: 5s
+      retries: 100
+      start_period: 10s
+    networks:
+      - talentlabs_network
+
+  talentlabs_web:
+    build:
+      context: ./talentLabs_assignment_be
+      dockerfile: Dockerfile
+    container_name: talentlabs_web
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      CONFIG_YAML: config.docker.yml
+      DB_HOST: ${DB_HOST}
+      DB_PORT: ${DB_PORT}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      DB_NAME: ${POSTGRES_DB}
+      DATABASE_URL: postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${DB_HOST}:${DB_PORT}/${POSTGRES_DB}
+    depends_on:
+      timescaledb:
+        condition: service_healthy
+    networks:
+      - talentlabs_network
+
+  frontend:
+    build:
+      context: ./talentLabs_assignment_fe
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE: ${VITE_API_BASE}
+    container_name: talentlabs_frontend
+    ports:
+      - "5173:80"
+    env_file:
+      - .env
+    environment:
+      VITE_API_BASE: ${VITE_API_BASE}
+    restart: unless-stopped
+    networks:
+      - talentlabs_network
+
+volumes:
+  timescaledb_data:
+
+networks:
+  talentlabs_network:
+    driver: bridge
