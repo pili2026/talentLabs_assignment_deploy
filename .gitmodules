@@ -1,0 +1,8 @@
+[submodule "talentLabs_assignment_fe"]
+	path = talentLabs_assignment_fe
+	url = https://github.com/pili2026/talentLabs_assignment_fe
+	branch = main
+[submodule "talentLabs_assignment_be"]
+	path = talentLabs_assignment_be
+	url = https://github.com/pili2026/talentLabs_assignment_be
+	branch = main
