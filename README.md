@@ -53,6 +53,7 @@ docker compose up --build
 * The frontend will be available at: http://localhost:5173
 
 > The frontend communicates with the backend via Nginx reverse proxy (/api path).
+> http://localhost is equivalent to http://127.0.0.1. You may access via either depending on your environment.
 
 ### 4. View API Documentation
 
