@@ -1,6 +1,6 @@
-# TalentLabs Assignment – Deploy Repository
+# Job Platform – Deploy Repository
 
-This repository serves as the unified deployment layer for the TalentLabs Full Stack Assignment.  
+This repository serves as the unified deployment layer for the Job Platform Full Stack Project.  
 It integrates the **frontend (Vue 3)** and **backend (Django)** applications using Docker Compose, ensuring reproducible and portable development environments.
 
 ## Project Structure
